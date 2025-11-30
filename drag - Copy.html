@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smooth Click & Drag</title>
+  <style>
+
+    p:hover, h1:hover, a:hover {
+  background-color: yellow;
+  }
+
+  
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: rgb(8, 0, 255);
+      cursor: grab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body.dragging {
+      cursor: grabbing;
+    }
+
+    #canvas img {
+      user-select: none;
+      pointer-events: none;
+      object-fit: contain;
+    }
+
+    .ocean {
+      position:absolute;
+      top:-3800px;
+      left:0;
+      width: 100vw;
+      height: auto;
+      max-width: 100%;
+      
+
+      object-fit: contain;
+      z-index: 0;
+      
+    }
+
+    .rock1 {
+      position:absolute;
+      top: -3700px;
+      left:-200px;
+      scale: 0.8;
+      width: 1000;
+      height: 3240;
+      object-fit: contain;
+      z-index: 3;
+    }
+
+    .kelp1 {
+      position:absolute;
+      top: -700px;
+      left:-300px;
+      scale: 0.2;
+      width: 1000;
+      height: 4240;
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+
+      .kelp2 {
+      position:absolute;
+      top: -700px;
+      left:-50px;
+      scale: 0.22;
+      width: 1000;
+      height: 4240;
+      filter: blur(50px);
+      object-fit: contain;
+      z-index: 1;
+    }
+
+    .kelp3 {
+      position:absolute;
+      top: -800px;
+      left:-0px;
+      scale: 0.21;
+      width: 1000;
+      height: 4240;
+      filter: blur(25px);
+      object-fit: contain;
+      z-index: 1;
+    }
+
+        .kelp4 {
+      position:absolute;
+      top: -1300px;
+      left:300px;
+      scale: 0.29;
+      width: 1000;
+      height: 4240;
+      filter: blur(50px);
+      object-fit: contain;
+      z-index: 1;
+    }
+
+        .octopus1 {
+      position:absolute;
+      top: -1300px;
+      left:100px;
+      scale: 0.29;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 2;
+      opacity: 0.6;
+    }
+
+      .shark1 {
+      position:absolute;
+      top: -600px;
+      left: 300px;
+      scale: 1.7;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    .flatfish1 {
+      position:absolute;
+      top: -800px;
+      left: 100px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+
+    .yellowfish1 {
+      position:absolute;
+      top: -1800px;
+      left: 100px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish2 {
+      position:absolute;
+      top: -1820px;
+      left: 200px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish3 {
+      position:absolute;
+      top: -1700px;
+      left: 000px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish4 {
+      position:absolute;
+      top: -1790px;
+      left: 120px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish5 {
+      position:absolute;
+      top: -1840px;
+      left: 90px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish6 {
+      position:absolute;
+      top: -1900px;
+      left: 210px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+    .yellowfish7 {
+      position:absolute;
+      top: -1850px;
+      left: 130px;
+      scale: 1.3;
+      width: 1000;
+      height: 4240;
+      filter: blur(0px);
+      object-fit: contain;
+      z-index: 1;
+      opacity: 1;
+    }
+
+.cliff1 {
+  position: absolute;
+  top: -1800px;
+  left: 750px;  
+   
+
+  width: 1000px;
+  height: auto;
+  scale: 1;
+  z-index: 2;
+}
+
+
+    .black-box {
+       position: absolute;
+      top: 250px;      
+      left: 8465px;
+      width: 270px;
+      height: 300px; 
+      background: rgba(0, 0, 0, 1); 
+      z-index: 20;      
+      pointer-events: none; 
+    }
+
+    .bubble1 {
+      position:absolute;
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      z-index: 40;
+    }
+
+    .bubble3 {
+      position:absolute;
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      z-index: 50;
+    }
+
+    .bubble4 {
+      position:absolute;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      z-index: 50;
+    }
+
+    .anglermovement {
+      position:absolute;
+      width: 1920/3px;
+      height: 1080/3px;
+      object-fit: contain;
+      z-index: 1;
+    }
+
+    .fish7 {
+      position:absolute;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      z-index: 1;
+    }
+
+    .fish2move {
+      position:absolute;
+      width: 1920px;
+      height: 1080px;
+      object-fit: contain;
+      z-index: 2;
+    }
+
+      .rock {
+      position:absolute;
+      width: 1920px;
+      height: 1080px;
+      object-fit: contain;
+      z-index: 2;
+    }
+
+    .black-box2 {
+  position: absolute;
+  top: 700px;      
+  left: 11820px;
+  width: 270px;
+  height: 300px; 
+  background: rgb(0, 0, 0); 
+  z-index: 20;      
+  pointer-events: none; 
+}
+
+    
+
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      will-change: transform;
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <div id="canvas">
+      <img src="new background.png" class="ocean" />
+  <img src="cliff1.png" class="cliff1" />
+    <div class="black-box"></div>
+    <div class="black-box2"></div>
+    
+    <img src="rock1.png" class="rock1" />
+    
+
+    <p1><img src="kelpMove.gif" class="kelp1" /></p1>
+    <img src="kelpMove.gif" class="kelp2" />
+    <img src="kelpMove.gif" class="kelp3" />
+    <img src="kelpMove.gif" class="kelp4" />
+
+    <img src="bubble1.gif" class="bubble1" style="top: -4000px; left: 900px" />
+    <img src="bubble1.gif" class="bubble1" style="top: -1300px; left: 800px" />/>
+    <img src="bubble1.gif" class="bubble1" style="top: -0px; left: 700px" />/>
+    <img src="bubble1.gif" class="bubble1" style="top: -1700px; left: 600px" />/>
+    <img src="bubble1.gif" class="bubble1" style="top: -900px; left: 400px" />/>
+    <img src="bubble1.gif" class="bubble1" style="top: -2000px; left: 200px" />/>
+
+    <img src="bubble2.gif" class="bubble2" style="top: -3600px; left: 950px" />/>
+    <img src="bubble2.gif" class="bubble2" style="top: -400px; left: 800px" />/>
+    <img src="bubble2.gif" class="bubble2" style="top:  80px; left: 1500" />/>
+    <img src="bubble2.gif" class="bubble2" style="top: -600px; left: 900px" />/>
+    <img src="bubble2.gif" class="bubble2" style="top: -1000px; left: 990px" />/>
+    <img src="bubble2.gif" class="bubble2" style="top: -700px; left: 10px" />/>
+
+    <img src="bubble3.gif" class="bubble3" style="top: -4070px; left: 45px" />/>
+    <img src="bubble3.gif" class="bubble3" style="top: 500px; left: 1200px" />/>
+    <img src="bubble3.gif" class="bubble3" style="top: -700px; left: 360px" />/>
+    <img src="bubble3.gif" class="bubble3" style="top: -70px; left: 450px" />/>
+
+    <img src="bubble4.gif" class="bubble4" style="top: -3500px; left: 600ps"/>
+    <img src="bubble4.gif" class="bubble4" style="top: -3400px; left: 0px"/>
+    <img src="bubble4.gif" class="bubble4" style="top: -20px; left: 1000px"/>
+    <img src="bubble4.gif" class="bubble4" style="top: 100px; left: 50px"/>
+
+    <img src="octopusMove.gif" class="octopus1" />
+
+    <img src="sharkMove.gif" class="shark1" />
+
+    <img src="yellowfishMove.gif" class="yellowfish1" />
+    <img src="yellowfishMove.gif" class="yellowfish2" />
+    <img src="yellowfishMove.gif" class="yellowfish3" />
+    <img src="yellowfishMove.gif" class="yellowfish4" />
+    <img src="yellowfishMove.gif" class="yellowfish5" />
+    <img src="yellowfishMove.gif" class="yellowfish6" />
+    <img src="yellowfishMove.gif" class="yellowfish7" />
+  
+    <img src="flatfishMove.gif" class="flatfish1" />
+
+    <img src="anglermovement.gif" class="anglermovement" style="top: 350px; left: 200px; filter:brightness(0.5)"/>
+
+    <img src="fish-02.png" class="fish2" style="top: 400px; left: 1000px; filter:brightness(0.2)"/>
+
+    <img src="Fish2move (2).gif" class="fish2move" style="top: 0px; left: 0px; filter:brightness(0.2)"/>
+
+    <img src="fish-02.png" class="fish2" style="top: 450px; left: 200px; filter: blur(5px) brightness(0); transform:scaleX(-1)"/>
+
+    <img src="Rock.png" class="rock" style="top: -100px; left: 0px; filter: blur(5px) brightness(0)"/>
+
+    <img src="fish-07.png" class="fish7" style="top: 800px; left: 1200px; filter:brightness(0.5)"/>
+  
+
+ 
+    <video src="MP4 - windsquare.mp4" alt="windsquare" class="wind-square" 
+    autoplay
+  loop
+  muted
+  playsinline></video>   
+  <video src="river1.mp4" alt="river1" class="river-1" 
+    autoplay
+  loop
+  muted
+  playsinline></video>   
+  <video src="river2.mp4" alt="river2" class="river-2" 
+    autoplay
+  loop
+  muted
+  playsinline></video>   
+  <video src="Jake on rocks.mp4" alt="jakeriver" class="jake-river" 
+    autoplay
+  loop
+  muted
+  playsinline></video>  
+  <video src="fog move.mp4" alt="fogmove" class="fog-move" 
+    autoplay
+  loop
+  muted
+  playsinline></video> 
+  <video src="tree sun.mp4" alt="treesun" class="tree-sun" 
+    autoplay
+  loop
+  muted
+  playsinline></video> 
+  <video src="minifall.mp4" alt="minifall" class="mini-fall" 
+    autoplay
+  loop
+  muted
+  playsinline></video> 
+    </div>
+
+    <audio id="stove-on" src="Stove on.wav" preload="auto"></audio>
+    <audio id="wind1" src="Wind1.wav" preload="auto"></audio>
+    <audio id="howff-ambience" src="Howff ambience.wav" preload="auto"></audio>
+    <audio id="footsteps" src="Howff ambience 3 footsteps edition.wav" preload="auto"></audio>
+    <audio id="writing2" src="wind and writing 2.wav" preload="auto"></audio>
+    <audio id="purpose" src="purpose, preserving deer, and society.wav" preload="auto"></audio>
+    <audio id="heather" src="brushing heather.wav" preload="auto"></audio>
+    <audio id="outside-howff" src="outside howff ambience.wav" preload="auto"></audio>
+    <audio id="big-river" src="big river ambience.wav" preload="auto"></audio>
+    <audio id="drip" src="drip.wav" preload="auto"></audio>
+    <audio id="inside-water" src="inside water.wav" preload="auto"></audio>
+    <audio id="mini-river" src="miniriver.wav" preload="auto"></audio>
+    <audio id="outside-howff" src="outside howff ambience.wav" preload="auto"></audio>
+    <audio id="rain-roof" src="rain on roof.wav" preload="auto"></audio>
+    <audio id="waterrock1" src="water in rock1.wav" preload="auto"></audio>
+    <audio id="waterrock2" src="water in rock2.wav" preload="auto"></audio>
+    <audio id="blow" src="Howff ambience 4 blowing.wav" preload="auto"></audio>
+    <audio id="direDocks" src="Super Mario 64 - Dire, Dire Docks [Remix] [j7YG5ojRDFM].wav" 
+      autoplay
+      loop
+      preload="auto">
+    </audio>
+    
+    <audio id="wind-summit" src="wind on summit.wav" preload="auto"></audio>
+    <audio id="porridge" src="porridge thru nose.wav" preload="auto"></audio>
+    <audio id="soupfortea" src="soufortea.wav" preload="auto"></audio>
+    <audio id="soupstew" src="soupstew.wav" preload="auto"></audio>
+    <audio id="could-live" src="could you live here.wav" preload="auto"></audio>
+    <audio id="jake-art" src="jake making art.wav" preload="auto"></audio>
+    <audio id="cheese" src="mature cheddar cheese.wav" preload="auto"></audio>
+    <audio id="bothy-book" src="stormy, reading bothy book.wav" preload="auto"></audio>
+    <audio id="wading-story" src="wading story.wav" preload="auto"></audio>
+    <audio id="always-lived" src="we've always lived in howffs.wav" preload="auto"></audio>
+    <audio id="hobbits" src="hobbits.wav" preload="auto"></audio>
+
+  <script>
+
+      window.addEventListener('load', () => {
+    const direDocks = document.getElementById('direDocks');
+    // Try to play immediately
+    direDocks.play().catch(() => {
+      // Fallback for browsers that block autoplay: wait for first user interaction
+      const playOnInteraction = () => {
+        direDocks.play();
+        document.removeEventListener('mousedown', playOnInteraction);
+        document.removeEventListener('keydown', playOnInteraction);
+      };
+      document.addEventListener('mousedown', playOnInteraction);
+      document.addEventListener('keydown', playOnInteraction);
+    });
+  });
+
+    const canvas = document.getElementById("canvas");
+
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const canvasWidth = 28000;  
+    const canvasHeight = 2000;  
+    let minX = 1080; 
+    let maxX = 0;                          
+    let minY = 0; 
+    let maxY = 5000; 
+
+    const hotspots = [
+      {  
+        x: 0, 
+        y: -5000, 
+        width:windowWidth,
+        height: 6000,
+        sound: document.getElementById("direDocks"),
+        wasInside: false
+      }
+  
+    ];
+
+    let isDragging = false;
+    let startX, startY;
+    let currentX = 0, currentY = 0;
+    let targetX = 0, targetY = 0;
+    let velocityX = 0, velocityY = 0;
+    const friction = 0.9;
+    const lerpFactor = 0.15;
+
+    let x = 0;
+    function fishMove() {
+      x+=1;
+
+    }
+
+    //function fadeIn(audio, duration = 1000, targetVolume = 1.0) {
+    //  audio.play();
+    //  audio.volume = 0;
+    //  const step = targetVolume / (duration / 50);
+    //  clearInterval(audio.fadeInterval);
+    //  audio.fadeInterval = setInterval(() => {
+    //    if (audio.volume < targetVolume) {
+    //      audio.volume = Math.min(audio.volume + step, targetVolume);
+    //    } else {
+    //      clearInterval(audio.fadeInterval);
+    //    }
+    //  }, 50);
+   // }
+
+   // function fadeOut(audio, duration = 1000) {
+ // const step = audio.volume / (duration / 50);
+  //clearInterval(audio.fadeInterval);
+  //audio.fadeInterval = setInterval(() => {
+  //  if (audio.volume > 0) {
+   //   audio.volume = Math.max(audio.volume - step, 0);
+   // } else {
+   //   clearInterval(audio.fadeInterval);
+   //   audio.pause();
+   // }
+ // }, 50);
+//}
+
+//function fadeOutWithDelay(audio, delay = 3000, duration = 2000) {
+   // clearTimeout(audio.fadeOutTimeout);
+   // audio.fadeOutTimeout = setTimeout(() => {
+    //  fadeOut(audio, duration);
+   // }, delay);
+ // }
+
+//document.getElementById("wind1").volume = 0.3;
+//document.getElementById("big-river").volume = 0.3;
+
+   // hotspots.forEach((h) => {
+  //  const box = document.createElement("div");
+  //  box.classList.add("hotspot-box");
+  //  box.style.position = "absolute";
+  //  box.style.left = h.x + "px";
+  //  box.style.top = h.y + "px";
+  //  box.style.width = h.width + "px";
+  //  box.style.height = h.height + "px";
+  //  box.style.border = "2px dashed red";
+  //  box.style.background = "rgba(255, 0, 0, 0.2)";
+  //  box.style.zIndex = 9999;
+   // canvas.appendChild(box);
+  //  h.debugBox = box;
+ // });
+
+ // let showHotspots = true;
+ // document.addEventListener("keydown", (e) => {
+   // if (e.key.toLowerCase() === "h") {
+   //   showHotspots = !showHotspots;
+    //  hotspots.forEach(h => {
+    //    h.debugBox.style.display = showHotspots ? "block" : "none";
+   //   });
+   // }
+ // });
+    
+    document.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      document.body.classList.add("dragging");
+      startX = e.clientX - targetX;
+      startY = e.clientY - targetY;
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      document.body.classList.remove("dragging");
+    });
+
+    document.addEventListener("mouseleave", () => {
+      isDragging = false;
+      document.body.classList.remove("dragging");
+    });
+
+    document.addEventListener("mousemove", (e) => {
+  if (isDragging) {
+    const x = e.clientX - startX;
+    const y = e.clientY - startY;
+    velocityX = x - targetX;
+    velocityY = y - targetY;
+    
+    targetX = Math.min(maxX, Math.max(minX, x));
+    targetY = Math.min(maxY, Math.max(minY, y));
+    console.log(`Mouse X: ${e.clientX}, Mouse Y: ${e.clientY}`);
+  }
+
+  const imageX = e.clientX - currentX;
+  const imageY = e.clientY - currentY;
+
+  hotspots.forEach(h => {
+  const inside =
+    imageX > h.x &&
+    imageX < h.x + h.width &&
+    imageY > h.y &&
+    imageY < h.y + h.height;
+
+  // only handle this hotspot's own state
+  if (inside && !h.wasInside) {
+    h.wasInside = true;
+    clearTimeout(h.sound.fadeOutTimeout);
+    fadeIn(h.sound, 2000, 0.6);
+  } 
+  else if (!inside && h.wasInside) {
+    h.wasInside = false;
+    fadeOutWithDelay(h.sound, 3000, 2000);
+  }
+});
+});
+  
+    function animate() {
+      // Smooth interpolation
+      currentX += (targetX - currentX) * lerpFactor;
+      currentY += (targetY - currentY) * lerpFactor;
+
+      // Inertia effect
+      if (!isDragging) {
+        targetX += velocityX * friction;
+        targetY += velocityY * friction;
+        targetX = Math.min(maxX, Math.max(minX, targetX));
+        targetY = Math.min(maxY, Math.max(minY, targetY));
+        velocityX *= friction;
+        velocityY *= friction;
+      }
+
+      canvas.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate(); // start the loop
+
+// --- MOUSE PARALLAX EFFECT --- //
+
+const parallaxLayers = [
+  { el: document.querySelector('.wide-lichen'), factor: 0.2 },
+  { el: document.querySelector('.wind-landscape'), factor: 0.2 },
+  { el: document.querySelector('.candleholder1'), factor: 0.2 }
+];
+
+let mouseX = 0, mouseY = 0;
+let parallaxX = 0, parallaxY = 0;
+
+// Track mouse position (centered around 0,0)
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth) - 0.5; // -0.5 to +0.5
+  mouseY = (e.clientY / window.innerHeight) - 0.5;
+});
+
+function updateParallax() {
+  parallaxX += (mouseX - parallaxX) * 0.1;
+  parallaxY += (mouseY - parallaxY) * 0.1;
+
+  parallaxLayers.forEach(layer => {
+    if (!layer.el) return;
+    const moveX = parallaxX * layer.factor * 200; // Increase intensity
+    const moveY = parallaxY * layer.factor * 200;
+    layer.el.style.transform = `translate(${moveX}px, ${moveY}px)`; // ✅ Apply transform
+  });
+
+  requestAnimationFrame(updateParallax);
+}
+
+updateParallax();
+  </script>
+</body>
+</html>
